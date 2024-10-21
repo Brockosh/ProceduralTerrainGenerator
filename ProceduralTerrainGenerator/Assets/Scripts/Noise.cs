@@ -4,7 +4,32 @@ using UnityEngine;
 
 public static class Noise
 {
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
+
+    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, float scale)
+    {
+        float[,] noiseMap = new float[mapWidth, mapHeight];
+
+        if (scale <= 0)
+        {
+            scale = 0.0001f;
+        }
+
+        for (int y = 0; y < mapHeight; y++) 
+        { 
+            for (int x = 0; x < mapWidth; x++) 
+            {
+                float sampleX = x / scale;
+                float sampleY = y / scale;
+
+                float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+                noiseMap[x, y] = perlinValue;
+            }
+        }
+        return noiseMap;
+    }
+
+
+    public static float[,] CompleteGenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
         System.Random prng = new System.Random(seed);
         Vector2[] octaveOffsets = new Vector2[octaves];
@@ -16,6 +41,7 @@ public static class Noise
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
         }
 
+        // We have scale division below so this is to make sure we don't get a division by 0 error
         if (scale <= 0)
         {
             scale = 0.0001f;
@@ -29,16 +55,22 @@ public static class Noise
         float minValue = float.MaxValue;
         float maxValue = float.MinValue;
 
+
+        // Loop through map height values
         for (int y = 0; y < mapHeight; y++)
         {
+            // For each height value, loop through all the width values
             for (int x = 0; x < mapWidth; x++)
             {
+                // Refers to y axis
                 float amplitude = 1;
+                // Refers to X axis
                 float frequency = 1;
                 float noiseHeight = 0;
 
                 for (int i = 0; i < octaves; i++)
                 {
+                    // Divide x and y by scale to get some non integer values as perlin noise repeats at whole numbers
                     float sampleX = (x - halfWidth) / scale * frequency + octaveOffsets[i].x * frequency;
                     float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[i].y * frequency;
 

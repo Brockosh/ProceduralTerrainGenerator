@@ -11,11 +11,22 @@ public class MeshGenerator : MonoBehaviour
     Vector3[] vertices;
     int[] triangles;
 
-    public int xSize = 20;
-    public int zSize = 20;
+    public int mapWidth = 20;
+    public int mapHeight = 20;
+    public float noiseScale;
+
+    public void GenerateMap()
+    {
+        //float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale);
+    }
+
 
     [SerializeField] int amplitude = 8;
-    [SerializeField] float scale = 0.02f;
+    [SerializeField] float scale = 5;
+    [SerializeField] int octaves;
+    [SerializeField] float persistence = 5;
+    [SerializeField] float lacunarity = 5;
+    [SerializeField] Vector2 offset;
 
 
     private void Start()
@@ -27,16 +38,21 @@ public class MeshGenerator : MonoBehaviour
         UpdateMesh();
     }
 
+    private void Update()
+    {
+        CreateShape();
+        UpdateMesh();
+    }
+
 
     void CreateShape()
     {
         //We need one more vertice on each axis than the amount of mesh's we want to create
-        vertices = new Vector3[(xSize + 1) * (zSize + 1)];
-        
+        vertices = new Vector3[(mapWidth + 1) * (mapHeight + 1)];
 
-        for (int i = 0, z = 0; z <= zSize; z++) 
+        for (int i = 0, z = 0; z <= mapHeight; z++) 
         { 
-            for (int x = 0; x <= xSize; x++)
+            for (int x = 0; x <= mapWidth; x++)
             {
                 //.3 multiplication zooms out of noise
                 //*5 increased the amplitude, increasing height variations
@@ -46,21 +62,21 @@ public class MeshGenerator : MonoBehaviour
             }
         }
 
-        triangles = new int[xSize * zSize * 6];
+        triangles = new int[mapWidth * mapHeight * 6];
 
         int vert = 0;
         int tris = 0;
 
-        for  (int z = 0; z < zSize; z++)
+        for  (int z = 0; z < mapHeight; z++)
         {
-            for (int x = 0; x < xSize; x++)
+            for (int x = 0; x < mapWidth; x++)
             {
                 triangles[tris + 0] = vert + 0;
-                triangles[tris + 1] = vert + xSize + 1;
+                triangles[tris + 1] = vert + mapWidth + 1;
                 triangles[tris + 2] = vert + 1;
                 triangles[tris + 3] = vert + 1;
-                triangles[tris + 4] = vert + xSize + 1;
-                triangles[tris + 5] = vert + xSize + 2;
+                triangles[tris + 4] = vert + mapWidth + 1;
+                triangles[tris + 5] = vert + mapWidth + 2;
                 vert++;
                 tris += 6;
 
