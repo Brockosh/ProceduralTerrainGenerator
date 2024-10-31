@@ -34,6 +34,7 @@ public class MapGenerator : MonoBehaviour
         if (!Application.isPlaying)
         {
             DrawMapInEditor();
+            textureData.ApplyToMaterial(terrainMaterial);
         }
     }
 
