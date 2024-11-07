@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   normaliseMode: 1
-  noiseScale: 41.3
+  noiseScale: 40.94
   octaves: 6
   persistance: 0.379
   lacunarity: 2.55

@@ -16,7 +16,7 @@ MonoBehaviour:
   uniformScale: 2.5
   useFlatShading: 0
   useFalloff: 0
-  meshHeightMultiplier: 35.1
+  meshHeightMultiplier: 24.8
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:
