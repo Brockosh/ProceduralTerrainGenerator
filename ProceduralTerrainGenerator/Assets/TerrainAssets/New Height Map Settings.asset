@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   noiseSettings:
-    normaliseMode: 1
-    scale: 50
+    normaliseMode: 0
+    scale: 34.62
     octaves: 5
-    persistance: 0.456
-    lacunarity: 1.97
-    seed: 67
-    offset: {x: 386.93, y: 0}
-  useFalloff: 0
-  heightMultiplier: 57.9
+    persistance: 0.49
+    lacunarity: 1.78
+    seed: -32
+    offset: {x: 175.2, y: 631}
+  useFalloff: 1
+  falloffStart: 0.595
+  falloffEnd: 1
+  heightMultiplier: 59.35
   heightCurve:
     serializedVersion: 2
     m_Curve:

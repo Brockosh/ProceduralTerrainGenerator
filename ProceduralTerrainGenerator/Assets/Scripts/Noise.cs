@@ -60,8 +60,11 @@ public static class Noise
                     // Divide x and y by scale to get some non integer values as perlin noise repeats at whole numbers
                     //The higher the frequency, the further apart the sample points will be
                     //Which will mean that the height values will change more rapidly
-                    float sampleX = (x-halfWidth + octaveOffsets[i].x) / settings.scale * frequency;
-                    float sampleY = (y-halfHeight + octaveOffsets[i].y) / settings.scale * frequency;
+                    //float sampleX = (x-halfWidth + octaveOffsets[i].x) / settings.scale * frequency;
+                    //float sampleY = (y-halfHeight + octaveOffsets[i].y) / settings.scale * frequency;
+
+                    float sampleX = ((x - halfWidth) / settings.scale + octaveOffsets[i].x) * frequency;
+                    float sampleY = ((y - halfHeight) / settings.scale + octaveOffsets[i].y) * frequency;
 
                     //* 2 - 1 gives us perlin values that are occasionally in the negative to give us more variation in our land
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
