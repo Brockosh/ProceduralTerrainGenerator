@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class TerrainChunk
 {
+    const float colliderGenerationDistanceThreshold = 5;
+    public event System.Action<TerrainChunk, bool> onVisibilityChanged;
     public Vector2 coord;
 
     GameObject meshObject;
@@ -64,6 +66,10 @@ public class TerrainChunk
 
         maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
 
+    }
+
+    public void Load()
+    {
         ThreadedDataRequester.RequestData(() => HeightMapGenerator.GenerateHeightMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, sampleCentre), OnHeightMapReceived);
     }
 
@@ -118,26 +124,19 @@ public class TerrainChunk
                     }
                     else if (!lodMesh.hasRequestedMesh)
                     {
-                        lodMesh.RequestMesh(heightMap);
+                        lodMesh.RequestMesh(heightMap, meshSettings);
                     }
                 }
-
-
-                visibleTerrainChunks.Add(this);
             }
 
 
             if (wasVisible != visible)
             {
-                if (visible)
-                {
-                    visibleTerrainChunks.Add(this);
-                }
-                else
-                {
-                    visibleTerrainChunks.Remove(this);
-                }
                 SetVisible(visible);
+                if (onVisibilityChanged != null)
+                {
+                    onVisibilityChanged(this, visible);
+                }
             }
         }
     }
@@ -152,7 +151,7 @@ public class TerrainChunk
             {
                 if (!lodMeshes[colliderLODIndex].hasRequestedMesh)
                 {
-                    lodMeshes[colliderLODIndex].RequestMesh(heightMap);
+                    lodMeshes[colliderLODIndex].RequestMesh(heightMap, meshSettings);
                 }
             }
 

@@ -16,12 +16,12 @@ public static class TextureGenerator
     }
 
 
-    public static Texture2D TextureFromHeightMap(float[,] heightMap)
+    public static Texture2D TextureFromHeightMap(HeightMap heightMap)
     {
         // Returns number of rows
-        int width = heightMap.GetLength(0);
+        int width = heightMap.values.GetLength(0);
         // Returns number of columns
-        int height = heightMap.GetLength(1);
+        int height = heightMap.values.GetLength(1);
 
 
         Color[] colourMap = new Color[width * height];
@@ -31,7 +31,7 @@ public static class TextureGenerator
             {
                 // y * width gives us the index of the row we are on and adding x gives us column
                 // Noise map at the end applies a percentage between 0 and 1 between black and white
-                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y]);
+                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, Mathf.InverseLerp(heightMap.minValue, heightMap.maxValue, heightMap.values[x, y]));
             }
         }
         return TextureFromColourMap(colourMap, width, height);
