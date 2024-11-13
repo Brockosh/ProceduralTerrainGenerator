@@ -27,6 +27,8 @@ public class TerrainGenerator : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
+    private TerrainChunk terrainChunk;
+
     private void Start()
     {
 
@@ -39,6 +41,7 @@ public class TerrainGenerator : MonoBehaviour
 
         UpdateVisibleChunks();
     }
+
 
     private void Update()
     {
